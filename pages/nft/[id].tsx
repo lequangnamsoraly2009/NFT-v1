@@ -41,7 +41,7 @@ function NFTDropPage() {
         </header>
         <hr className="my-3 border" />
         {/* Content */}
-        <div className="mt-10 flex flex-1 flex-col items-center space-y-6 text-center lg:space-y-0">
+        <div className="mt-10 flex flex-1 flex-col items-center space-y-6 text-center lg:space-y-0 lg:justify-center">
           <img
             className="w-80 object-cover pb-10 lg:h-40"
             src="https://links.papareact.com/bdy"
@@ -50,9 +50,11 @@ function NFTDropPage() {
           <h1 className="text-3xl font-bold lg:text-5xl lg:font-extrabold">
             NFT Drop | Free To Claim
           </h1>
+
+          <p className='text-green-500 text-xl pt-2'>13/21 NFT's claimed</p>
         </div>
         {/* Footer */}
-        <div></div>
+        <button className='mt-10 h-16 w-full bg-red-500 rounded-full text-white'>Mint NFT (0.01 ETH)</button>
       </div>
     </div>
   )
