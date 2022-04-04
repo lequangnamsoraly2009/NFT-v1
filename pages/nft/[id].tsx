@@ -24,23 +24,33 @@ function NFTDropPage() {
         </div>
       </div>
       {/* Righr Side */}
-      <div className="flex flex-col">
+      <div className="flex flex-1 flex-col p-8 lg:col-span-6 lg:p-10">
         {/* Header */}
-        <div>
-          <header className=''>
-            <h1 className="w-52 cursor-pointer text-xl font-extralight sm:w-80">
-              The{' '}
-              <span className="font-extrabold underline decoration-pink-600/50">
-                Soraly NFT
-              </span>{' '}
-              Market Place
-            </h1>
+        <header className="flex items-center justify-between">
+          <h1 className="w-52 cursor-pointer text-xl font-extralight sm:w-80">
+            The{' '}
+            <span className="font-extrabold underline decoration-pink-600/50">
+              Soraly NFT
+            </span>{' '}
+            Market Place
+          </h1>
 
-            <button className='rounded-full bg-rose-400 text-white py-2 px-4 text-xs font-bold lg:px-5 lg:py-3 lg:text-base lg:w-56'>Connect to Metamask</button>
-          </header>
-        </div>
+          <button className="rounded-full bg-rose-400 py-2 px-4 text-xs font-bold text-white lg:w-56 lg:px-5 lg:py-3 lg:text-base">
+            Connect to Metamask
+          </button>
+        </header>
+        <hr className="my-3 border" />
         {/* Content */}
-        <div></div>
+        <div className="mt-10 flex flex-1 flex-col items-center space-y-6 text-center lg:space-y-0">
+          <img
+            className="w-80 object-cover pb-10 lg:h-40"
+            src="https://links.papareact.com/bdy"
+            alt=""
+          />
+          <h1 className="text-3xl font-bold lg:text-5xl lg:font-extrabold">
+            NFT Drop | Free To Claim
+          </h1>
+        </div>
         {/* Footer */}
         <div></div>
       </div>
