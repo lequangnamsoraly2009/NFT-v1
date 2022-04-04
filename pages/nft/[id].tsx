@@ -1,10 +1,12 @@
 import React from 'react'
 
+// Code CSS Style with Mobile First
+
 function NFTDropPage() {
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex h-screen flex-col lg:grid lg:grid-cols-10">
       {/* Left Side */}
-      <div className="bg-gradient-to-br from-cyan-200 to-rose-500">
+      <div className="bg-gradient-to-br from-cyan-200 to-rose-500 lg:col-span-4">
         <div className='flex flex-col items-center justify-center py-2 lg:min-h-screen'>
           <div className='bg-gradient-to-br from-yellow-400 to-purple-600 p-1.5 rounded-xl'>
             <img
