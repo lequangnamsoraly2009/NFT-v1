@@ -1,9 +1,15 @@
 import React from 'react'
 import { useAddress, useDisconnect, useMetamask } from '@thirdweb-dev/react'
+import type { GetServerSideProps } from 'next'
+import { sanityClient, urlFor } from '../../sanity'
+import { Collection } from '../../typing'
 
 // Code CSS Style with Mobile First
+interface Props {
+  collection: Collection
+}
 
-function NFTDropPage() {
+const  NFTDropPage = ({ collection }: Props) => {
   // Authentication
   const connectWithMetamask = useMetamask()
   const address = useAddress()
@@ -17,14 +23,14 @@ function NFTDropPage() {
           <div className="rounded-xl bg-gradient-to-br from-yellow-400 to-purple-600 p-1.5">
             <img
               className="w-44 rounded-xl object-cover lg:h-96 lg:w-72"
-              src="https://links.papareact.com/8sg"
+              src={urlFor(collection.mainImage).url()}
               alt="nothing"
             />
           </div>
           <div className="space-y-3 p-5 text-center">
-            <h1 className="text-4xl font-bold text-white">Soraly NFT Drop</h1>
+            <h1 className="text-4xl font-bold text-white">{collection.nftCollectionName}</h1>
             <h2 className="text-xl text-gray-800">
-              A collection of Soraly who live & breathe with React!
+              {collection.description}
             </h2>
           </div>
         </div>
@@ -69,16 +75,16 @@ function NFTDropPage() {
         {/* Content */}
         <div className="mt-10 flex flex-1 flex-col items-center space-y-6 text-center lg:justify-center lg:space-y-0">
           <img
-            className="w-80 object-cover pb-10 lg:h-40"
-            src="https://links.papareact.com/bdy"
+            className="w-100 object-cover pb-10 lg:h-60"
+            src={urlFor(collection.previewImage).url()}
             alt=""
           />
           <h1 className="text-3xl font-bold lg:text-5xl lg:font-extrabold">
             {' '}
-            Soraly Collection NFT Drop | Fee To Claim
+            {collection.title}
           </h1>
 
-          <p className="pt-2 text-xl text-green-500">13/21 NFT's claimed</p>
+          <p className="pt-2 text-xl text-green-500">13/21 NFT's claimed - 8/21 NFT's remaining</p>
         </div>
         {/* Footer */}
         <button className="mt-10 h-16 w-full rounded-full bg-red-500 font-bold text-white">
@@ -90,3 +96,52 @@ function NFTDropPage() {
 }
 
 export default NFTDropPage
+
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const query = `
+  *[_type=="collection" && slug.current == $id][0]{
+    _id,
+    title,
+    address,
+    description,
+    nftCollectionName,
+    mainImage{
+    asset
+  },
+    previewImage{
+      asset
+    },
+    slug{
+      current
+    },
+    creator->{
+      _id,
+      bio,
+      image{
+        asset
+      },
+      name,
+      address,
+      slug{
+      current
+    },
+    },
+  }
+  `
+
+  const collection = await sanityClient.fetch(query, {
+    id: params?.id,
+  })
+
+  if (!collection) {
+    return {
+      notFound: true,
+    }
+  }
+
+  return {
+    props: {
+      collection,
+    },
+  }
+}
