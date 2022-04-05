@@ -22,9 +22,9 @@ function NFTDropPage() {
             />
           </div>
           <div className="space-y-3 p-5 text-center">
-            <h1 className="text-4xl font-bold text-white">Soraly</h1>
+            <h1 className="text-4xl font-bold text-white">Soraly NFT Drop</h1>
             <h2 className="text-xl text-gray-800">
-              A collection of Soraly who live & breathe React!
+              A collection of Soraly who live & breathe with React!
             </h2>
           </div>
         </div>
@@ -61,7 +61,7 @@ function NFTDropPage() {
         <hr className="my-3 border" />
 
         {address && (
-          <p className='text-red-600 text-sm text-center'>
+          <p className="text-center text-sm text-red-600">
             You're logged in with wallet {address.substring(0, 4)}.....
             {address.substring(address.length - 5)}
           </p>
@@ -74,7 +74,8 @@ function NFTDropPage() {
             alt=""
           />
           <h1 className="text-3xl font-bold lg:text-5xl lg:font-extrabold">
-            NFT Drop | Free To Claim
+            {' '}
+            Soraly Collection NFT Drop | Fee To Claim
           </h1>
 
           <p className="pt-2 text-xl text-green-500">13/21 NFT's claimed</p>
