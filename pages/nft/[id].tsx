@@ -1,9 +1,15 @@
-import React from 'react'
-import { useAddress, useDisconnect, useMetamask } from '@thirdweb-dev/react'
+import React, { useEffect, useState } from 'react'
+import {
+  useAddress,
+  useDisconnect,
+  useMetamask,
+  useNFTDrop,
+} from '@thirdweb-dev/react'
 import type { GetServerSideProps } from 'next'
 import { sanityClient, urlFor } from '../../sanity'
 import { Collection } from '../../typing'
 import Link from 'next/link'
+import { BigNumber } from 'ethers'
 
 // Code CSS Style with Mobile First
 interface Props {
@@ -11,10 +17,33 @@ interface Props {
 }
 
 const NFTDropPage = ({ collection }: Props) => {
+  const [claimedSupply, setClaimedSupply] = useState<number>(0)
+  const [unclaimedSupply, setUnclaimedSupply] = useState<number>(0)
+  const [totalSupply, setTotalSupply] = useState<BigNumber>()
+  const [loading, setLoading] = useState<boolean>(true)
+  const nftDrop = useNFTDrop(collection.address)
+
   // Authentication
   const connectWithMetamask = useMetamask()
   const address = useAddress()
   const disconnect = useDisconnect()
+
+  useEffect(() => {
+    if (!nftDrop) return
+
+    const fetchNFTDropData = async () => {
+      setLoading(true)
+      const claimed = await nftDrop.getAllClaimed()
+      const unclaimed = await nftDrop.getAllUnclaimed()
+      const total = await nftDrop.totalSupply()
+      setClaimedSupply(claimed.length)
+      setUnclaimedSupply(unclaimed.length)
+      setTotalSupply(total)
+      setLoading(false)
+    }
+
+    fetchNFTDropData()
+  }, [nftDrop])
 
   return (
     <div className="flex h-screen flex-col lg:grid lg:grid-cols-10">
@@ -86,13 +115,30 @@ const NFTDropPage = ({ collection }: Props) => {
             {' '}
             {collection.title}
           </h1>
+          {loading ? (
+            <p className="animate-bounce pt-2 text-xl text-rose-500">
+              Loading Supply Count...
+            </p>
+          ) : (
+            <p className="pt-2 text-xl text-green-500">
+              {claimedSupply}/{totalSupply?.toString()} NFT's claimed -{' '}
+              {unclaimedSupply} NFT's remaining
+            </p>
+          )}
 
-          <p className="pt-2 text-xl text-green-500">
-            13/21 NFT's claimed - 8/21 NFT's remaining
-          </p>
+          {loading && (
+            <img
+              className="h-20 w-80 object-contain"
+              src="https://cdn.hackernoon.com/images/0*4Gzjgh9Y7Gu8KEtZ.gif"
+              alt=""
+            />
+          )}
         </div>
         {/* Footer */}
-        <button className="mt-10 h-16 w-full rounded-full bg-red-500 font-bold text-white">
+        <button
+          disabled={loading || claimedSupply === totalSupply?.toNumber() || !address}
+          className="disabled:bg-gray-400 mt-10 h-16 w-full rounded-full bg-red-500 font-bold text-white"
+        >
           Mint NFT (0.01 ETH)
         </button>
       </div>
