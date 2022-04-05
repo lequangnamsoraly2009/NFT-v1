@@ -78,7 +78,7 @@ const NFTDropPage = ({ collection }: Props) => {
         {/* Content */}
         <div className="mt-10 flex flex-1 flex-col items-center space-y-6 text-center lg:justify-center lg:space-y-0">
           <img
-            className="w-100 object-cover pb-10 lg:h-60"
+            className="w-80 object-cover pb-10 lg:h-60"
             src={urlFor(collection.previewImage).url()}
             alt=""
           />
