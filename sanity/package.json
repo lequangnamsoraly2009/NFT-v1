@@ -27,7 +27,9 @@
     "react-dom": "^17.0",
     "styled-components": "^5.2.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@babel/preset-env": "^7.16.11"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/lequangnamsoraly2009/NFT-v1.git"
