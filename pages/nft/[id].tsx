@@ -80,33 +80,49 @@ const NFTDropPage = ({ collection }: Props) => {
         const claimedTokenId = tx[0].id // the id of the NFT claimed
         const claimedNFT = await tx[0].data() // get the claimed NFT metadata
 
-        toast('You successfully claimed your NFT!', {
-          duration: 8000,
-          style:{
-            background: 'green',
-            color: 'white',
-            fontSize: '17px',
-            fontWeight: 'bolder',
-            borderRadius: '5px',
-            padding: '20px',
-          }
-        })
+        toast.custom(() => (
+          <div className="pointer-events-auto mt-5 ml-5 flex w-full max-w-md rounded-lg bg-green-600 shadow-lg ring-1">
+            <div className="w-0 flex-1 p-4">
+              <p className="font-mediu text-sm font-bold">
+                You successfully claimed your NFT! See your Transaction Details{' '}
+                <Link
+                  href={`https://rinkeby.etherscan.io/tx/${receipt.transactionHash}`}
+                >
+                  <a target="_blank" rel="noreferrer">
+                    <span className="text-white">here</span>
+                  </a>
+                </Link>
+              </p>
+            </div>
+          </div>
+        ))
 
-        console.log(receipt)
-        console.log(claimedTokenId)
-        console.log(claimedNFT)
+        //   toast(
+        //     `You successfully claimed your NFT! See your Transaction Details here: https://rinkeby.etherscan.io/tx/${receipt.transactionHash}`,
+        //     {
+        //       duration: 8000,
+        //       style: {
+        //         background: 'green',
+        //         color: 'white',
+        //         fontSize: '17px',
+        //         fontWeight: 'bolder',
+        //         borderRadius: '5px',
+        //         padding: '20px',
+        //       },
+        //     }
+        //   )
       })
       .catch((err) => {
         console.log(err)
         toast('Whoops... Something went wrong.!', {
-          style:{
+          style: {
             background: 'red',
             color: 'white',
             fontSize: '17px',
             fontWeight: 'bolder',
             borderRadius: '5px',
             padding: '20px',
-          }
+          },
         })
       })
       .finally(() => {
@@ -118,7 +134,7 @@ const NFTDropPage = ({ collection }: Props) => {
   return (
     <div className="flex h-screen flex-col lg:grid lg:grid-cols-10">
       {/* Left Side */}
-      <Toaster position="bottom-center"/>
+      <Toaster position="bottom-center" />
       <div className="bg-gradient-to-br from-cyan-200 to-rose-500 lg:col-span-4">
         <div className="flex flex-col items-center justify-center py-2 lg:min-h-screen">
           <div className="rounded-xl bg-gradient-to-br from-yellow-400 to-purple-600 p-1.5">
