@@ -1,8 +1,14 @@
 import React from 'react'
+import { useAddress, useDisconnect, useMetamask } from '@thirdweb-dev/react'
 
 // Code CSS Style with Mobile First
 
 function NFTDropPage() {
+  // Authentication
+  const connectWithMetamask = useMetamask()
+  const address = useAddress()
+  const disconnect = useDisconnect()
+
   return (
     <div className="flex h-screen flex-col lg:grid lg:grid-cols-10">
       {/* Left Side */}
@@ -34,14 +40,34 @@ function NFTDropPage() {
             </span>{' '}
             Market Place
           </h1>
-
-          <button className="rounded-full bg-rose-400 py-2 px-4 text-xs font-bold text-white lg:w-56 lg:px-5 lg:py-3 lg:text-base">
-            Connect to Metamask
-          </button>
+          {address ? (
+            <>
+              <button
+                className="rounded-full bg-rose-400 py-2 px-4 text-xs font-bold text-white lg:w-56 lg:px-5 lg:py-3 lg:text-base"
+                onClick={disconnect}
+              >
+                Disconnect
+              </button>
+            </>
+          ) : (
+            <button
+              className="rounded-full bg-rose-400 py-2 px-4 text-xs font-bold text-white lg:w-56 lg:px-5 lg:py-3 lg:text-base"
+              onClick={connectWithMetamask}
+            >
+              Connect to Metamask
+            </button>
+          )}
         </header>
         <hr className="my-3 border" />
+
+        {address && (
+          <p className='text-red-600 text-sm text-center'>
+            You're logged in with wallet {address.substring(0, 4)}.....
+            {address.substring(address.length - 5)}
+          </p>
+        )}
         {/* Content */}
-        <div className="mt-10 flex flex-1 flex-col items-center space-y-6 text-center lg:space-y-0 lg:justify-center">
+        <div className="mt-10 flex flex-1 flex-col items-center space-y-6 text-center lg:justify-center lg:space-y-0">
           <img
             className="w-80 object-cover pb-10 lg:h-40"
             src="https://links.papareact.com/bdy"
@@ -51,10 +77,12 @@ function NFTDropPage() {
             NFT Drop | Free To Claim
           </h1>
 
-          <p className='text-green-500 text-xl pt-2'>13/21 NFT's claimed</p>
+          <p className="pt-2 text-xl text-green-500">13/21 NFT's claimed</p>
         </div>
         {/* Footer */}
-        <button className='mt-10 h-16 w-full bg-red-500 rounded-full text-white'>Mint NFT (0.01 ETH)</button>
+        <button className="mt-10 h-16 w-full rounded-full bg-red-500 font-bold text-white">
+          Mint NFT (0.01 ETH)
+        </button>
       </div>
     </div>
   )
